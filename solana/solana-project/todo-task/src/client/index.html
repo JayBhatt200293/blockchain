@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>To-Do App</title>
+    <style>
+        body {
+            font-family: 'Segoe UI';
+            padding: 30px;
+            background: #f9f9f9;
+        }
+
+        input[type='text'] {
+            padding: 10px;
+            width: 250px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 10px 15px;
+            margin-left: 5px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .add-btn {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .update-btn {
+            background-color: #ffc107;
+            color: white;
+        }
+
+        .delete-btn {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        ul {
+            padding: 0;
+            margin-top: 20px;
+        }
+
+        li {
+            list-style: none;
+            background: white;
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+<h2>To-Do List</h2>
+<input type="text" id="taskInput" placeholder="Enter task"/>
+<button class="add-btn" onclick="handleAddOrUpdate()">Add Task</button>
+
+<ul id="taskList"></ul>
+
+<script>
+    const apiBase = 'http://localhost:3000/api/tasks';
+    let tasks;
+    let editId = null;
+
+    async function fetchTasks() {
+        console.log("Fetching Tasks");
+        const res = await fetch(apiBase);
+        tasks = await res.json();
+        // console.log(tasks);
+        renderTasks();
+    }
+
+    async function testingAdd(limit) {
+        for (let i = 0; i < limit; i++) {
+            const text = "testing_6" + i.toString();
+            await fetch(apiBase, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({text})
+            });
+        }
+        fetchTasks();
+    }
+
+    function renderTasks() {
+        // console.log("called defore it load");
+        // console.log(tasks.length);
+        const ul = document.getElementById('taskList');
+        ul.innerHTML = '';
+        // tasks.forEach(task => {
+        //     console.log(task)
+        // });
+        tasks.forEach((task, index) => {
+            // console.log(task);
+            const li = document.createElement('li');
+            li.innerHTML = `
+            <span>${index + 1}</span>
+<!--            <span>${task.id}</span>-->
+            <span>${task.title}</span>
+            <div>
+              <button class="update-btn" onclick="startEdit('${task.id}')">Edit</button>
+              <button class="delete-btn" onclick="deleteTask('${task.id}')">Delete</button>
+            </div>`;
+            ul.appendChild(li);
+        });
+    }
+
+    async function handleAddOrUpdate() {
+        const input = document.getElementById('taskInput');
+        const text = input.value.trim();
+        if (!text) return;
+
+        if (editId) {
+            const res = await fetch(`${apiBase}/${editId}`, {
+                method: 'PUT',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({text})
+            });
+            editId = null;
+            document.querySelector('.add-btn').textContent = 'Add Task';
+            tasks = await res.json();
+        } else {
+            const res = await fetch(apiBase, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({text})
+            });
+            tasks = await res.json();
+
+            // console.log("Added tasks =" + JSON.stringify(tasks));
+        }
+        input.value = '';
+        renderTasks();
+        // fetchTasks();
+    }
+
+    function startEdit(id) {
+        const task = tasks.find((t) => t.id === id);
+        document.getElementById('taskInput').value = task.title;
+        document.querySelector('.add-btn').textContent = 'Update Task';
+        editId = id;
+    }
+
+
+    async function deleteTask(id) {
+        const res = await fetch(`${apiBase}/${id}`, {method: 'DELETE'});
+        console.log("Delete task=" + JSON.stringify(tasks));
+        tasks = await res.json();
+        renderTasks();
+        // fetchTasks();
+    }
+
+    // testingAdd(10);
+    fetchTasks();
+</script>
+</body>
+</html>
