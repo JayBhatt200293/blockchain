@@ -1,0 +1,30 @@
+{
+  "name": "Jay Bhatt NFT",
+  "symbol": "AWESOME",
+  "description": "This is an Jay Bhatt NFT on Solana.",
+  "image": "https://example.com/image.png",
+  "animation_url": "https://example.com/animation.mp4",
+  "external_url": "",
+  "attributes": [
+    {
+      "trait_type": "Color",
+      "value": "Whites"
+    }
+  ],
+  "properties": {
+    "files": [
+      {
+        "uri": "https://github.com/JayBhatt200293/blockchain/blob/main/solana/metadata/jaybhatt-pic/IMG-20191215-WA0006.jpg",
+        "type": "image/png"
+      }
+    ],
+    "category": "image"
+  },
+  "seller_fee_basis_points": 500,
+  "creators": [
+    {
+      "address": "YOUR_CREATOR_ADDRESS",
+      "share": 100
+    }
+  ]
+}
