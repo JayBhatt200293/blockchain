@@ -1,0 +1,30 @@
+{
+  "name": "Jay Bhatt NFT",
+  "symbol": "Nice",
+  "description": "This is an Jay Bhatt NFT on Solana.",
+  "image": "https://github.com/JayBhatt200293/blockchain/blob/main/solana/metadata/jaybhatt-pic/ChatGPT%20Image%20Jun%2024%2C%202025%2C%2003_24_11%20PM.png",
+  "animation_url": "https://github.com/JayBhatt200293/blockchain/blob/main/solana/metadata/jaybhatt-pic/Jay-Animate-%20video.mp4",
+  "external_url": "",
+  "attributes": [
+    {
+      "trait_type": "Color",
+      "value": "Whites"
+    }
+  ],
+  "properties": {
+    "files": [
+      {
+        "uri": "https://github.com/JayBhatt200293/blockchain/blob/main/solana/metadata/jaybhatt-pic/Image%20Jun%2024%2C%202025%2C%2002_28_11%20PM.png",
+        "type": "image/png"
+      }
+    ],
+    "category": "image"
+  },
+  "seller_fee_basis_points": 500,
+  "creators": [
+    {
+      "address": "2846kADpg2uhYXbsEzMdLxdsMgfseijAZQ8UxomqrVwU",
+      "share": 100
+    }
+  ]
+}
